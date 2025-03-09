@@ -1,0 +1,392 @@
+:root{
+    background-color: #283646;
+}
+
+
+
+
+
+
+/* cash register*/
+
+.wrapper-register{
+    display: grid;
+    min-height: 100dvh;
+    grid-template-rows:auto 1fr auto;
+
+}
+
+.extensible{
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+@media (max-width: 400px) { .wrapper-register { grid-template-rows: auto 1fr auto; min-height: 100vh;}}
+
+.barmes{
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: flex-end;
+}
+
+.bar{
+    background-color: #6A7FC1;
+    width: 5vw;
+    border-top-left-radius: 0.3em;
+    border-top-right-radius: 0.3em;
+    height: 14vh;
+}
+
+.barchi{
+    width: 5vw;
+    height: 8vh;
+    background-color: #839DD1;
+    border-top-left-radius: 0.3em;
+    border-top-right-radius: 0.3em;
+}
+
+.meses{
+    display: flex;
+    width: 100%;
+    height: 5vh;
+    align-items: center;
+    justify-content: space-around;
+    
+}
+
+.meses > p {
+    color: dimgrey;
+}
+
+.congrid{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 16px;
+    
+    place-items: center;
+    
+    padding: 0.5em 1em 0em 1em;
+
+}
+
+.pagos{
+    background-color: #f0f0f0;
+    border-radius: 1em;
+    width: 40vw;
+    height: 13vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.pagos > p{
+    text-align: center;
+    width: 18vw;
+    font-size: large;
+}
+
+.pagos>img{
+    padding-right: 0.5em;
+    height: 60px;
+    width: 60px;
+}
+
+/* profile */
+
+.textotienda{
+    color: #f0f0f0;
+    width: 100%;
+    height:5vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.textotienda>p{
+    font-weight: 500;
+}
+
+.contenedortienda{
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #f0f0f0;
+    max-width:90%;
+    border-radius: 1em;
+    max-height: 75vh;
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+
+
+.congrid2{
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    grid-template-rows:repeat(3,1fr);
+    gap: 0.5em;
+    padding: 1em 1em 0 1em;
+}
+
+/*carrito*/
+
+
+.infodecarrito > nav{
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    color: #f0f0f0;
+}
+
+
+
+.carritoitems{
+   
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 1em;
+    overflow-y: auto;
+    position: relative;
+    width: 90%;
+    height: 80%;
+    margin-left: auto;
+    padding: 10px;
+    margin-right: auto;
+
+    
+}
+
+.centrycar{
+    height:80vh;
+   
+
+}
+
+.bolso{
+
+}
+
+.comprar{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    color:#ffffff;
+    gap: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 8px;
+    padding: 5px;
+    width: 92%;
+    height: 8%;
+    background-color: #43E902;
+    margin-top: 5px;
+    
+}
+
+
+/*Login*/
+
+.inputbox {
+    position: relative;
+    width: 70%;
+  }
+  
+  .inputbox input {
+    position: relative;
+    width: 100%;
+    padding: 20px 10px 10px;
+    background: transparent;
+    outline: none;
+    box-shadow: none;
+    border: none;
+    color: #23242a;
+    font-size: 1em;
+    letter-spacing: 0.05em;
+    transition: 0.5s;
+    z-index: 10;
+  }
+  
+  .inputbox span {
+    position: absolute;
+    left: 0;
+    padding: 20px 10px 10px;
+    font-size: 1em;
+    color: #8f8f8f;
+    letter-spacing: 00.05em;
+    transition: 0.5s;
+    pointer-events: none;
+    
+  }
+  
+  .inputbox input:valid ~span,
+  .inputbox input:focus ~span {
+    color: #fff;
+    transform: translateX(-10px) translateY(-20px);
+    font-size: 0,75em;
+  }
+  
+  .inputbox i {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background: #fff;
+    border-radius: 4px;
+    transition: 0.5s;
+    pointer-events: none;
+    z-index: 9;
+  }
+  
+  .inputbox input:valid ~i,
+  .inputbox input:focus ~i {
+    height: 44px;
+  }
+
+  .btn {
+    width: 140px;
+    height: 50px;
+    background: linear-gradient(to top, #00154c, #12376e, #23487f);
+    color: #fff;
+    border-radius: 50px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    position: relative;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+  }
+  
+  .btn span {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: top 0.5s;
+  }
+  
+  .btn-text-one {
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+  }
+  
+  .btn-text-two {
+    position: absolute;
+    width: 100%;
+    top: 150%;
+    left: 0;
+    transform: translateY(-50%);
+  }
+  
+  .btn:hover .btn-text-one {
+    top: -100%;
+  }
+  
+  .btn:hover .btn-text-two {
+    top: 50%;
+  }
+  
+
+  .mobilelayout{
+    display: flex;
+    flex-direction: column;
+    justify-content:space-around;
+    align-items: center;
+    gap: 20;
+  }
+
+  .gotoreg{
+    text-decoration: none;
+    color: #fff;
+    font-weight: 700;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    display: flex;
+    width: 70%;
+    justify-content: space-between;
+  }
+
+  .registro{
+    padding: 10px ;
+  border: none;
+  color: #fff;
+  border-radius: 7px;
+  letter-spacing: 4px;
+  font-weight: 700;
+  text-transform: uppercase;
+  transition: 0.5s;
+  transition-property: box-shadow;
+  border: 3px solid #fff;
+  background-color: #283646;
+}
+
+.shadow__btn {
+  background: #283646;
+  box-shadow: 0 0 25px #283646;
+}
+
+.shadow__btn:hover {
+  box-shadow: 0 0 5px #283646,
+              0 0 25px #283646,
+              0 0 50px #283646,
+              0 0 100px #283646;
+}
+
+.mobilelayout article{
+    font-size: 24px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI';
+    color: #fff;
+
+}
+
+
+/* Search */
+
+.contenedor-busqueda{
+    position: relative;
+    width: 90%;
+    height: 80vh;
+    margin: 0 auto ;
+    overflow-y: auto;
+    
+}
+
+.prgrid{
+    display: grid;
+    gap: 12px;
+    margin-top:1em;
+    grid-template-rows: repeat(2, 1fr);
+    grid-template-columns: auto auto;
+}
+
+/*viewproduct */
+
+.loader {
+    border: 4px solid rgba(0, 0, 0, .1);
+    border-left-color: transparent;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    animation: spin89345 1s linear infinite;
+  }
+  
+  
+  @keyframes spin89345 {
+    0% {
+      transform: rotate(0deg);
+    }
+  
+    100% {
+      transform: rotate(360deg);
+    }
+  }

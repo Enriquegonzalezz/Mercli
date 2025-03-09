@@ -1,0 +1,19 @@
+.wrapperunico{
+    display: flex;
+    flex-direction: row;
+    justify-content:center;
+    margin-right: auto;
+    margin-left: auto;
+    gap: 20px;
+    width: 95%;
+    height: 10vh;
+   align-items: center;
+  
+
+}
+
+.wrapperunico img{
+    width: 64px;
+    height: 32px;
+    object-fit: contain;
+}

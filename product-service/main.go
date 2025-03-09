@@ -2,10 +2,8 @@ package main
 
 import (
 	"net/http"
-	"product-service/internal/database" // Importa tu paquete de conexión
+
 	"github.com/gin-gonic/gin"
-	"log"
-    "product-service/internal/product"
 )
 
 // Estructura del producto
@@ -91,21 +89,10 @@ func addProduct(c *gin.Context) {
 }
 
 func main() {
-    database.ConnectDB()
-	log.Println("Conexión a la base de datos exitosa")
 	router := gin.Default()
 
-    // Rutas de productos
-	router.GET("/products", product.GetAllProductsHandler)
-    router.GET("/products/:id", product.GetProductByIDHandler)
-    router.POST("/products", product.CreateProductHandler)
-    router.PUT("/products", product.UpdateProductHandler)
-    router.DELETE("/products/:id", product.DeleteProductHandler)
+	router.GET("/products", getProducts)
+	router.POST("/products", addProduct)
 
-	//router.GET("/products", getProducts)
-	//router.POST("/products", addProduct)
-
-	// Iniciar servidor
-	log.Println("Servidor corriendo en http://localhost:8081")
-	router.Run(":8081")// Este servicio corre en el puerto 8081
+	router.Run(":8081") // Este servicio corre en el puerto 8081
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import './Productocarrito.css';
+import './productocarrito.css';
 
 interface Props {
     foto: string,

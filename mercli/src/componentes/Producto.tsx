@@ -28,7 +28,7 @@ const Producto: React.FC<Propsdelproducto> = ({
   };
 
   return (
-    <div className="wrapper" onClick={handleClick}>
+    <div className="wrapper" onClick={handleClick} key={id}>
       <img className="img" src={imagen} alt={nombreproducto} />
       <div className="info">
         <nav className="fle">

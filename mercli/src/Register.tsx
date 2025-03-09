@@ -15,7 +15,7 @@ const Register:React.FC = () => {
       setIsClicked(true);
   
       //una promesa que se resuelve después de 2 segundos
-      new Promise((resolve) => {
+      new Promise<void>((resolve) => {
         setTimeout(() => {
           resolve();
         }, 1500);

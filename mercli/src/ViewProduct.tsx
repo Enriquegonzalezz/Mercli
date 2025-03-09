@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Footer from "./componentes/footer";
 
@@ -15,12 +15,13 @@ interface Producto {
 const ProductoDetalle = () => {
   const { id } = useParams(); // Obtén el ID del producto desde la URL
   const [producto, setProducto] = useState<Producto | null>(null);
+  const apiurl = import.meta.env.VITE_producto_entero_url
 
   useEffect(() => {
   //la
     const fetchProducto = async () => {
       try {
-        const response = await fetch(`https://api.ejemplo.com/productos/${id}`);
+        const response = await fetch(`${apiurl}/productos/${id}`);
         const data = await response.json();
         setProducto(data);
       } catch (error) {

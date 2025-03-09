@@ -1,4 +1,4 @@
-import React from "react";
+
 import Header from "./componentes/Header";
 import "./index.css"
 
@@ -15,7 +15,7 @@ const Login:React.FC = () => {
       setIsClicked(true);
   
       // Crear una promesa que se resuelve después de 2 segundos
-      new Promise((resolve) => {
+      new Promise<void>((resolve) => {
         setTimeout(() => {
           resolve();
         }, 1500);

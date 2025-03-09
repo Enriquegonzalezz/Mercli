@@ -1,5 +1,5 @@
 
-
+#docker compose para las apis 
 services:
   product-service:
     build: ./product-service

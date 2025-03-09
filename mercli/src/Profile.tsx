@@ -21,15 +21,19 @@ const Profile: React.FC = () => {
     // Simula una llamada a la API
     const fetchProductos = async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_producto_entero_url}/api/productos`); 
+        const response = await fetch("http://localhost:8081/products", {
+          method:"GET",
+          mode:"no-cors"
+        }); 
         if (!response.ok) {
           throw new Error("Error al obtener los productos");
         }
         const data = await response.json();
+        console.log("Datos recibidos de la API:", data); // <-- Aquí
         setProductos(data);
       } catch (error) {
+        console.error("Error al cargar los productos:", error); // <-- Aquí
         setError("Error al cargar los productos");
-        console.error(error);
       } finally {
         setLoading(false);
       }

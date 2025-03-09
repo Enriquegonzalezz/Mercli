@@ -1,14 +1,21 @@
-
-#docker compose para las apis 
+version: '3'
 services:
   product-service:
     build: ./product-service
     ports:
       - "8081:8081"
-    depends_on:
-      - cart-service
+    networks:
+      - mynetwork
 
   cart-service:
     build: ./cart-service
     ports:
       - "8082:8082"
+    networks:
+      - mynetwork
+    depends_on:
+      - product-service
+
+networks:
+  mynetwork:
+    driver: bridge

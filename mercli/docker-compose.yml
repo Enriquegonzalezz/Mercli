@@ -5,7 +5,7 @@ services:
     ports:
       - "5173:5173"  # Mapea el puerto 5173 del contenedor al puerto 5173 de tu máquina
     environment:
-    - VITE_producto_entero_url=http://localhost:8081
+
     - VITE_Cart__service_url=http://localhost:8082
     depends_on:
       - cart-service

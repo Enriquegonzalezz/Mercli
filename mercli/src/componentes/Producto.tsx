@@ -10,6 +10,7 @@ interface Propsdelproducto {
   usertienda: string;
   valoracion: number;
   precio: number;
+  path?: (Path: string) => void;
 }
 
 const Producto: React.FC<Propsdelproducto> = ({
@@ -19,23 +20,23 @@ const Producto: React.FC<Propsdelproducto> = ({
   usertienda,
   valoracion,
   precio,
+  path,
 }) => {
   const navigate = useNavigate();
 
   
-  const handleClick = () => {
-    navigate(`/producto/${id}`); 
+  const handleComprarClick = () => {
+    // Navega a la ruta /cash cuando se haga clic en el botón de comprar
+    navigate("/producto");
   };
 
   return (
-    <div className="wrapper" onClick={handleClick} key={id}>
+    <div className="wrapper"  key={id} onClick={handleComprarClick}>
       <img className="img" src={imagen} alt={nombreproducto} />
       <div className="info">
         <nav className="fle">
-          <h3>{nombreproducto}</h3>
-          <div className="valo">
+          <p>{nombreproducto}</p>
             <p>${precio.toFixed(2)}</p>
-          </div>
         </nav>
         <nav className="fle">
           <p>{usertienda}</p>

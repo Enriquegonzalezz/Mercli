@@ -1,13 +1,14 @@
 import React from "react";
-import foto from "../assets/fotish.jpg"
+
 import "./productoencarro.css"
 interface Props{
     nombre: string,
     Numero: number,
+    foto: string,
     items:number
 }
 
-const Productoencarro: React.FC<Props> = ({nombre, Numero, items}) => {
+const Productoencarro: React.FC<Props> = ({nombre, Numero, items, foto}) => {
     return (
         <div className="card">
             <div className="te">

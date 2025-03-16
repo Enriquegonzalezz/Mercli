@@ -20,7 +20,7 @@ const Producto: React.FC<Propsdelproducto> = ({
   usertienda,
   valoracion,
   precio,
-  path,
+  
 }) => {
   const navigate = useNavigate();
 

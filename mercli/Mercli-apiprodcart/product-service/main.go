@@ -7,7 +7,15 @@ import (
 )
 
 // Estructura del producto
-
+type Product struct {
+	ID          int     `json:"id"`
+	Name        string  `json:"name"`
+	Description string  `json:"description"`
+	Store       string  `json:"store"`
+	Rating      float64 `json:"rating"`
+	Price       float64 `json:"price"`
+	ImageURL    string  `json:"image_url"`
+}
 
 // Lista de 50 productos con descripciones detalladas
 var products = []Product{

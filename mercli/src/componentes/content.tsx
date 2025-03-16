@@ -1,7 +1,5 @@
 import './content.css'
-
 import buysvg from "../assets/buy.svg"
-import kiketo from "../assets/fotish.jpg"
 import { useNavigate } from 'react-router-dom'
 import Productocarrito from './Productocarrito'
 

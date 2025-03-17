@@ -1,32 +1,120 @@
 
 services:
+  # Servicios del frontend
   frontend:
     build: .
     ports:
       - "5173:5173"  # Mapea el puerto 5173 del contenedor al puerto 5173 de tu máquina
     environment:
-
-    - VITE_Cart__service_url=http://localhost:8082
+      - VITE_Cart__service_url=http://cart-service:8082
     depends_on:
       - cart-service
       - product-service
     networks:
-      - mercli-network
+      - mercly-network
+
+  # Servicios de productos y carrito
+  product-service:
+    build: ./mercli-apiprodcart/product-service
+    ports:
+      - "8081:8081"
+    networks:
+      - mercly-network
 
   cart-service:
     build: ./mercli-apiprodcart/cart-service
     ports:
       - "8082:8082"
     networks:
-      - mercli-network
+      - mercly-network
 
-  product-service:
-    build: ./mercli-apiprodcart/product-service
-    ports:
-      - "8081:8081"
+  # Servicios de base de datos, notificaciones y pagos
+  db:
+    image: mysql
+    restart: always
+    volumes:
+      - db-data:/var/lib/mysql
     networks:
-      - mercli-network
+      - mercly-network
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
 
+  notifications:
+    restart: unless-stopped
+    container_name: NotificationsService
+    build:
+      context: ./NotificationsService
+      dockerfile: deploy/Dockerfile
+    volumes:
+      - ./NotificationsService/storage/app:/var/www/html/storage/app
+    environment:
+      APP_NAME: ${APP_NAME_NOTIFICATIONS}
+      APP_ENV: ${APP_ENV_NOTIFICATIONS}
+      APP_DEBUG: ${APP_DEBUG_NOTIFICATIONS}
+      APP_KEY: ${APP_KEY_NOTIFICATIONS}
+      APP_URL: ${APP_URL_NOTIFICATIONS}
+      DB_CONNECTION: mysql
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_DATABASE: ${DB_DATABASE}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      MAIL_MAILER: ${MAIL_MAILER_NOTIFICATIONS}
+      MAIL_HOST: ${MAIL_HOST_NOTIFICATIONS}
+      MAIL_PORT: ${MAIL_PORT_NOTIFICATIONS}
+      MAIL_USERNAME: ${MAIL_USERNAME_NOTIFICATIONS}
+      MAIL_PASSWORD: ${MAIL_PASSWORD_NOTIFICATIONS}
+      MAIL_ENCRYPTION: ${MAIL_ENCRYPTION_NOTIFICATIONS}
+      MAIL_FROM_ADDRESS: ${MAIL_FROM_ADDRESS_NOTIFICATIONS}
+      MAIL_FROM_NAME: ${MAIL_FROM_NAME_NOTIFICATIONS}
+    ports:
+      - "8080:80"
+    networks:
+      - mercly-network
+    depends_on:
+      - db
+
+  payment:
+    restart: unless-stopped
+    container_name: PaymentService
+    build:
+      context: ./PaymentService
+      dockerfile: deploy/Dockerfile
+    volumes:
+      - ./PaymentService/storage/app:/var/www/html/storage/app
+    environment:
+      APP_NAME: ${APP_NAME_PAYMENT}
+      APP_ENV: ${APP_ENV_PAYMENT}
+      APP_DEBUG: ${APP_DEBUG_PAYMENT}
+      APP_KEY: ${APP_KEY_PAYMENT}
+      APP_URL: ${APP_URL_PAYMENT}
+      DB_CONNECTION: mysql
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_DATABASE: ${DB_DATABASE}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      MAIL_MAILER: ${MAIL_MAILER_PAYMENT}
+      MAIL_HOST: ${MAIL_HOST_PAYMENT}
+      MAIL_PORT: ${MAIL_PORT_PAYMENT}
+      MAIL_USERNAME: ${MAIL_USERNAME_PAYMENT}
+      MAIL_PASSWORD: ${MAIL_PASSWORD_PAYMENT}
+      MAIL_ENCRYPTION: ${MAIL_ENCRYPTION_PAYMENT}
+      MAIL_FROM_ADDRESS: ${MAIL_FROM_ADDRESS_PAYMENT}
+      MAIL_FROM_NAME: ${MAIL_FROM_NAME_PAYMENT}
+    ports:
+      - "8083:80"
+    networks:
+      - mercly-network
+    depends_on:
+      - db
+
+# Volúmenes
+volumes:
+  db-data:
+
+# Redes
 networks:
-  mercli-network:
+  mercly-network:
     driver: bridge

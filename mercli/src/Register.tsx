@@ -1,73 +1,93 @@
-import React from "react";
-import Header from "./componentes/Header";
-import "./index.css"
-
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import Header from "./componentes/Header";
+import "./index.css";
+import { registerUser } from "../User Service/api";
 
+const Register: React.FC = () => {
+  const [isClicked, setIsClicked] = useState(false);
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
+  const handleRegister = async () => {
+    setIsClicked(true);
+    setError("");
 
-const Register:React.FC = () => {
-    const [isClicked, setIsClicked] = useState(false);
-    const navigate = useNavigate();
-  
-    const handleClick = () => {
-      setIsClicked(true);
-  
-      //una promesa que se resuelve después de 2 segundos
-      new Promise<void>((resolve) => {
-        setTimeout(() => {
-          resolve();
-        }, 1500);
-      }).then(() => {
-        navigate('/store');
-      });
-    };
-  
-    return (
-    
-        <div className="wrapper-register">
-           
-            <header><Header/></header>
+    try {
+      const response = await registerUser({ username, email, password });
+      console.log("Registration successful:", response);
+      navigate("/store"); // Redirige al usuario a la página de la tienda
+    } catch (error) {
+      console.error("Registration failed:", error);
+      setError("Registration failed. Please try again.");
+      setIsClicked(false); // Restablece el estado del botón
+    }
+  };
 
-            <main className="mobilelayout">
-                <article>Sign up</article>
-            <div className="inputbox">
-                <input type="password" required/>
-                <span>Username</span>
-                <i></i>
-            </div>
-            <div className="inputbox">
-                <input type="text" required/>
-                <span>Email</span>
-                <i></i>
-            </div>
-            <div className="inputbox">
-                <input type="password" required/>
-                <span>Password</span>
-                <i></i>
-            </div>
-           
+  return (
+    <div className="wrapper-register">
+      <header>
+        <Header />
+      </header>
 
-            <div className="gotoreg">
-                <p>Do you have <br />an account?</p>
-                <button className="registro" onClick={()=>{navigate("/")}}>Log in</button>
-            </div>
-
-            <button className="btn" onClick={handleClick}>
-            <span className={isClicked ? 'btn-text-two' : 'btn-text-one'}>
-        {isClicked ? 'Great!' : 'Get in!'}</span>
-            </button>
-
-           
-
-            </main>
-
-
-            <footer></footer>
-
+      <main className="mobilelayout">
+        <article>Sign up</article>
+        <div className="inputbox">
+          <input
+            type="text"
+            required
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <span>Username</span>
+          <i></i>
         </div>
-    )
-}
+        <div className="inputbox">
+          <input
+            type="text"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <span>Email</span>
+          <i></i>
+        </div>
+        <div className="inputbox">
+          <input
+            type="password"
+            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <span>Password</span>
+          <i></i>
+        </div>
 
-export default Register
+        {error && <p className="error-message">{error}</p>}
+
+        <div className="gotoreg">
+          <p>
+            Do you have <br />
+            an account?
+          </p>
+          <button className="registro" onClick={() => navigate("/")}>
+            Log in
+          </button>
+        </div>
+
+        <button className="btn" onClick={handleRegister} disabled={isClicked}>
+          <span className={isClicked ? "btn-text-two" : "btn-text-one"}>
+            {isClicked ? "Great!" : "Get in!"}
+          </span>
+        </button>
+      </main>
+
+      <footer></footer>
+    </div>
+  );
+};
+
+export default Register;

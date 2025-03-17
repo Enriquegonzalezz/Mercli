@@ -18,8 +18,8 @@ const Login: React.FC = () => {
     try {
       const response = await loginUser({ username: email, password });
       console.log("Login successful:", response);
-      localStorage.setItem("token", response.token); // Guarda el token en localStorage
-      navigate("/store"); // Redirige al usuario a la página de la tienda
+      localStorage.setItem("token", response.token); 
+      navigate("/store"); 
     } catch (error) {
       console.error("Login failed:", error);
       setError("Login failed. Please check your credentials.");

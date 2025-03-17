@@ -1,5 +1,4 @@
-const API_BASE_URL = "http://localhost:<PORT>"; // Reemplaza <PORT> con el puerto del User Service
-
+const API_BASE_URL = "http://localhost:3000";
 export const registerUser = async (userData: { username: string; email: string; password: string }) => {
   try {
     const response = await fetch(`${API_BASE_URL}/register`, {

@@ -1,0 +1,17 @@
+
+services:
+  frontend:
+    build: .
+    ports:
+      - "5173:5173"  # Mapea el puerto 5173 del contenedor al puerto 5173 de tu máquina
+    environment:
+      - VITE_Cart__service_url=http://localhost:8082
+    depends_on:
+      - cart-service
+      - product-service
+    networks:
+      - mercli-network
+
+networks:
+  mercli-network:
+    driver: bridge

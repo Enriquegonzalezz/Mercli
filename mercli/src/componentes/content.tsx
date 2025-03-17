@@ -17,6 +17,7 @@ const SearchBar = () => {
 
 function Content(){
     return (
+        
         <div className='content'>
             <div className="consumidores">
             <div className="glass">
@@ -54,7 +55,6 @@ function Content(){
                 </div>
             </div>
         </div>
-
     )
 }
 

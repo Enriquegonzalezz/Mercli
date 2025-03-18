@@ -5,6 +5,7 @@ services:
     image: mysql
     restart: always
     volumes:
+      - ./UserService/db/init:/docker-entrypoint-initdb.d
       - db-data:/var/lib/mysql
     networks:
       - mercly-network
@@ -91,6 +92,17 @@ services:
     build: ./cart-service
     ports:
       - "8083:8082"
+
+  user-service-app:
+    build: ./UserService
+    depends_on:
+      - db
+    links:
+      - db
+    ports:
+      - "3000:3000"
+    networks:
+      - mercly-network
 
 volumes:
   db-data:

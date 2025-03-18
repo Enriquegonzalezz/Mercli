@@ -15,35 +15,23 @@ interface ProductoData {
 }
 
 const Busqueda: React.FC = () => {
-   const [productos, setProductos] = useState<ProductoData[]>([]);
-   const [loading, setLoading] = useState<boolean>(true);
-   const [error, setError] = useState<string | null>(null);
-   const navigate = useNavigate();
+  const [productos, setProductos] = useState<ProductoData[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
 
-
-  // Simula la obtención de productos desde la API
-  
-  
-    useEffect(() => {
-      // Simula una llamada a la API con los datos del JSOn
-  
-      const fetchProductos = async () => {
-        let data = [];
-        try {
-          const response = await fetch(`/api/product-service/products`); 
-          if (!response.ok) {
-            throw new Error("Error al obtener los productos");
-          }
-          data = await response.json();
-        } catch (error) {
-          console.error(error);
+  useEffect(() => {
+    const fetchProductos = async () => {
+      try {
+        const response = await fetch(`/api/product-service/products`);
+        if (!response.ok) {
+          throw new Error("Error al obtener los productos");
         }
-        try {
-          // Datos simulados del JSON
-          const products = data;
-  
+        const data = await response.json();
+        console.log("Datos recibidos de la API:", data); // Verifica los datos recibidos
+
         // Transformar los datos al formato de ProductoData
-        const transformedData = products.map((product: any) => ({
+        const transformedData = data.map((product: any) => ({
           id: product.ID.toString(), // Convertir el ID a string
           imagen: product.ImageURL,
           nombreproducto: product.Name,
@@ -51,29 +39,29 @@ const Busqueda: React.FC = () => {
           valoracion: product.Rating,
           precio: product.Price,
         }));
-  
+
         // Simula un retraso de la API
         await new Promise((resolve) => setTimeout(resolve, 1000));
-  
-        console.log("Datos transformados:", transformedData); // <-- Aquí
+
+        console.log("Datos transformados:", transformedData); // Verifica los datos transformados
         setProductos(transformedData);
       } catch (error) {
-        console.error("Error al cargar los productos:", error); // <-- Aquí
+        console.error("Error al cargar los productos:", error);
         setError("Error al cargar los productos");
       } finally {
         setLoading(false);
       }
     };
-  
+
     fetchProductos();
   }, []);
-  
+
   if (loading) {
-    return  <div className="cent"><div className="loader"></div></div>;
+    return <div className="cent"><div className="loader"></div></div>;
   }
-  
+
   if (error) {
-    return <div>error</div>;
+    return <div>{error}</div>;
   }
 
   return (

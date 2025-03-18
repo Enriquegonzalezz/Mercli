@@ -8,7 +8,7 @@ services:
       - ./UserService/db/init:/docker-entrypoint-initdb.d
       - db-data:/var/lib/mysql
     networks:
-      - mercly-network
+      - mercli-network
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
       MYSQL_DATABASE: ${DB_DATABASE}
@@ -42,9 +42,9 @@ services:
       MAIL_FROM_ADDRESS: ${MAIL_FROM_ADDRESS_NOTIFICATIONS}
       MAIL_FROM_NAME: ${MAIL_FROM_NAME_NOTIFICATIONS}
     ports:
-      - "8080:80"
+      - "8080:8000"
     networks:
-      - mercly-network
+      - mercli-network
     depends_on:
       - db
   payment:
@@ -77,23 +77,31 @@ services:
       MAIL_FROM_ADDRESS: ${MAIL_FROM_ADDRESS_PAYMENT}
       MAIL_FROM_NAME: ${MAIL_FROM_NAME_PAYMENT}
     ports:
-      - "8081:80"
+      - "8081:81"
     networks:
-      - mercly-network
+      - mercli-network
     depends_on:
       - db
   product-service:
+    container_name: product-service
     build: ./product-service
     ports:
       - "8082:8081"
     depends_on:
       - cart-service
+    networks:
+      - mercli-network
+
   cart-service:
+    container_name: cart-service
     build: ./cart-service
     ports:
       - "8083:8082"
+    networks:
+      - mercli-network
 
   user-service-app:
+    container_name: user-service-app
     build: ./UserService
     depends_on:
       - db
@@ -102,11 +110,36 @@ services:
     ports:
       - "3000:3000"
     networks:
-      - mercly-network
+      - mercli-network
+
+  frontend:
+    container_name: frontend-service
+    build: ./FrontService
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_Cart__service_url=http://localhost:8082
+    depends_on:
+      - cart-service
+      - product-service
+    networks:
+      - mercli-network
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    networks:
+      - mercli-network
+    depends_on:
+      - cart-service
+      - product-service
 
 volumes:
   db-data:
 
 networks:
-  mercly-network:
+  mercli-network:
     driver: bridge

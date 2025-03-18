@@ -23,27 +23,22 @@ const Busqueda: React.FC = () => {
   useEffect(() => {
     const fetchProductos = async () => {
       try {
-        const response = await fetch(`/api/product-service/products`);
+        const response = await fetch('/api/product-service/products');
         if (!response.ok) {
           throw new Error("Error al obtener los productos");
         }
         const data = await response.json();
-        console.log("Datos recibidos de la API:", data); // Verifica los datos recibidos
+        console.log("Datos recibidos de la API:", data);
 
-        // Transformar los datos al formato de ProductoData
         const transformedData = data.map((product: any) => ({
-          id: product.ID.toString(), // Convertir el ID a string
-          imagen: product.ImageURL,
-          nombreproducto: product.Name,
-          usertienda: product.Store,
-          valoracion: product.Rating,
-          precio: product.Price,
+          id: product.id?.toString() || "", // Asegúrate de que el ID sea válido
+          imagen: product.image_url || "",
+          nombreproducto: product.name || "",
+          usertienda: product.store || "",
+          valoracion: product.rating || 0,
+          precio: product.price || 0,
         }));
 
-        // Simula un retraso de la API
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-
-        console.log("Datos transformados:", transformedData); // Verifica los datos transformados
         setProductos(transformedData);
       } catch (error) {
         console.error("Error al cargar los productos:", error);
@@ -74,16 +69,21 @@ const Busqueda: React.FC = () => {
           </div>
           <div className="prgrid">
             {productos.map((producto) => (
-              <Producto
-                key={producto.id} // Usa el id como key
-                id={producto.id}
-                imagen={producto.imagen}
-                nombreproducto={producto.nombreproducto}
-                usertienda={producto.usertienda}
-                valoracion={producto.valoracion}
-                precio={producto.precio}
-                path={navigate}
-              />
+              <div
+                key={producto.id}
+                onClick={() => navigate(`/producto/${producto.id}`, { state: producto })}
+                style={{ cursor: "pointer" }}
+              >
+                <Producto
+                  id={producto.id}
+                  imagen={producto.imagen}
+                  nombreproducto={producto.nombreproducto}
+                  usertienda={producto.usertienda}
+                  valoracion={producto.valoracion}
+                  precio={producto.precio}
+                  path={navigate}
+                />
+              </div>
             ))}
           </div>
         </div>

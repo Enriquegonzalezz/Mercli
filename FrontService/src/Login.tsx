@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "./componentes/Header";
 import "./index.css";
-import { loginUser } from "../User Service/api";
 
 const Login: React.FC = () => {
   const [isClicked, setIsClicked] = useState(false);
@@ -14,12 +13,24 @@ const Login: React.FC = () => {
   const handleLogin = async () => {
     setIsClicked(true);
     setError("");
-
+  
     try {
-      const response = await loginUser({ username: email, password });
-      console.log("Login successful:", response);
-      localStorage.setItem("token", response.token); 
-      navigate("/store"); 
+      const response = await fetch("/api/users-service/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username: email, password }),
+      });
+  
+      if (!response.ok) {
+        throw new Error("Failed to log in");
+      }
+  
+      const data = await response.json();
+      console.log("Login successful:", data);
+      localStorage.setItem("token", data.token); // Guarda el token en localStorage
+      navigate("/store"); // Navega a la página de la tienda
     } catch (error) {
       console.error("Login failed:", error);
       setError("Login failed. Please check your credentials.");
@@ -42,7 +53,7 @@ const Login: React.FC = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-          <span>Email</span>
+          <span>Username</span>
           <i></i>
         </div>
         <div className="inputbox">

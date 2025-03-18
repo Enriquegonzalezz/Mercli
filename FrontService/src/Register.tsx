@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "./componentes/Header";
 import "./index.css";
-import { registerUser } from "../User Service/api";
 
 const Register: React.FC = () => {
   const [isClicked, setIsClicked] = useState(false);
@@ -15,13 +14,26 @@ const Register: React.FC = () => {
   const handleRegister = async () => {
     setIsClicked(true);
     setError("");
-
+  
     try {
-      const response = await registerUser({ username, email, password });
-      console.log("Registration successful:", response);
+      const response = await fetch("/api/users-service/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, email, password }),
+      });
+  
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to register");
+      }
+  
+      const data = await response.json();
+      console.log("Registration successful:", data);
       navigate("/store"); // Redirige al usuario a la página de la tienda
-    } catch (error) {
-      console.error("Registration failed:", error);
+    } catch (error: any) {
+      console.error("Registration failed:", error.message);
       setError("Registration failed. Please try again.");
       setIsClicked(false); // Restablece el estado del botón
     }

@@ -69,12 +69,9 @@ const Busqueda: React.FC = () => {
           </div>
           <div className="prgrid">
             {productos.map((producto) => (
-              <div
-                key={producto.id}
-                onClick={() => navigate(`/producto/${producto.id}`, { state: producto })}
-                style={{ cursor: "pointer" }}
-              >
                 <Producto
+                  product={producto}
+                  key={producto.id}
                   id={producto.id}
                   imagen={producto.imagen}
                   nombreproducto={producto.nombreproducto}
@@ -83,7 +80,6 @@ const Busqueda: React.FC = () => {
                   precio={producto.precio}
                   path={navigate}
                 />
-              </div>
             ))}
           </div>
         </div>

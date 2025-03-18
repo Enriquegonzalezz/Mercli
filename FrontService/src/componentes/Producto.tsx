@@ -4,6 +4,7 @@ import estrellita from "../assets/Star - Iconly Pro.svg";
 import { useNavigate } from "react-router-dom";
 
 interface Propsdelproducto {
+  product?: any;
   id: string; // ID del producto
   imagen: string;
   nombreproducto: string;
@@ -14,6 +15,7 @@ interface Propsdelproducto {
 }
 
 const Producto: React.FC<Propsdelproducto> = ({
+  product,
   id,
   imagen,
   nombreproducto,
@@ -24,14 +26,8 @@ const Producto: React.FC<Propsdelproducto> = ({
 }) => {
   const navigate = useNavigate();
 
-  
-  const handleComprarClick = () => {
-    // Navega a la ruta /cash cuando se haga clic en el botón de comprar
-    navigate("/producto");
-  };
-
   return (
-    <div className="wrapper"  key={id} onClick={handleComprarClick}>
+    <div className="wrapper"  key={id} onClick={() => navigate(`/producto/${id}`, { state: product })}>
       <img className="img" src={imagen} alt={nombreproducto} />
       <div className="info">
         <nav className="fle">

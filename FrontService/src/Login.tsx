@@ -1,68 +1,83 @@
-
-import Header from "./componentes/Header";
-import "./index.css"
-
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import Header from "./componentes/Header";
+import "./index.css";
+import { loginUser } from "../User Service/api";
 
+const Login: React.FC = () => {
+  const [isClicked, setIsClicked] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
+  const handleLogin = async () => {
+    setIsClicked(true);
+    setError("");
 
-const Login:React.FC = () => {
-    const [isClicked, setIsClicked] = useState(false);
-    const navigate = useNavigate();
-  
-    const handleClick = () => {
-      setIsClicked(true);
-  
-      // Crear una promesa que se resuelve después de 2 segundos
-      new Promise<void>((resolve) => {
-        setTimeout(() => {
-          resolve();
-        }, 1500);
-      }).then(() => {
-        // Navegar a la página "/store" después de 2 segundos
-        navigate('/store');
-      });
-    };
-  
-    return (
-    
-        <div className="wrapper-register">
-           
-            <header><Header/></header>
+    try {
+      const response = await loginUser({ username: email, password });
+      console.log("Login successful:", response);
+      localStorage.setItem("token", response.token); 
+      navigate("/store"); 
+    } catch (error) {
+      console.error("Login failed:", error);
+      setError("Login failed. Please check your credentials.");
+      setIsClicked(false); // Restablece el estado del botón
+    }
+  };
 
-            <main className="mobilelayout">
-                <article>Log in</article>
-            <div className="inputbox">
-                <input type="text" required/>
-                <span>Email</span>
-                <i></i>
-            </div>
-            <div className="inputbox">
-                <input type="password" required/>
-                <span>Password</span>
-                <i></i>
-            </div>
+  return (
+    <div className="wrapper-register">
+      <header>
+        <Header />
+      </header>
 
-            <div className="gotoreg">
-                <p>Don't have <br />an account?</p>
-                <button className="registro" onClick={()=>{navigate("/Register")}}>Sign up</button>
-            </div>
-
-            <button className="btn" onClick={handleClick}>
-            <span className={isClicked ? 'btn-text-two' : 'btn-text-one'}>
-        {isClicked ? 'Great!' : 'Log in'}</span>
-            </button>
-
-           
-
-            </main>
-
-
-            <footer></footer>
-
+      <main className="mobilelayout">
+        <article>Log in</article>
+        <div className="inputbox">
+          <input
+            type="text"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <span>Email</span>
+          <i></i>
         </div>
-    )
-}
+        <div className="inputbox">
+          <input
+            type="password"
+            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <span>Password</span>
+          <i></i>
+        </div>
 
-export default Login
+        {error && <p className="error-message">{error}</p>}
+
+        <div className="gotoreg">
+          <p>
+            Don't have <br />
+            an account?
+          </p>
+          <button className="registro" onClick={() => navigate("/Register")}>
+            Sign up
+          </button>
+        </div>
+
+        <button className="btn" onClick={handleLogin} disabled={isClicked}>
+          <span className={isClicked ? "btn-text-two" : "btn-text-one"}>
+            {isClicked ? "Great!" : "Log in"}
+          </span>
+        </button>
+      </main>
+
+      <footer></footer>
+    </div>
+  );
+};
+
+export default Login;
